@@ -1,0 +1,9 @@
+DataCheck               Check QT data
+InfoCreate              Create info list function for QT
+MeanData                Mean data function
+outputGraph             Function to print graphs using different
+                        devices
+QT                      QT knowledge management system
+QTconc                  Concentration-QTc Function
+QTcorrections           QT-RR Function
+QTtime                  QT-Time Function
