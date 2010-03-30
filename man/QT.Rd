@@ -21,7 +21,7 @@
 			\item{\code{qt.cfb/qtc.cfb}}{Change from baseline QT/QTc (ms) (numeric) (QT, QTcB, and QTcF are required)}
 			\item{\code{conc}}{Parent drug concentration (numeric) (optional)}
 			\item{\code{meta}}{Metabolite concentration (numeric) (optional)}
-			\item{\code{moxi}}{Moxifloxacin concentrationHeart rate (numeric) (optional)}
+			\item{\code{moxi}}{Moxifloxacin concentration (numeric) (optional)}
 			\item{\code{weight}}{Body weight (kg) (numeric) (optional)}
 			\item{\code{height}}{Height (cm) (numeric) (optional)}
 			\item{\code{age}}{Age (years) (numeric) (optional)}
