@@ -73,7 +73,7 @@ outputGraph <- function(name,device,height=9,width=9){
 
 				if(info$first==TRUE){	
 					wdGet()
-
+					wdNewDoc("QT")
 					wdTitle("Summary of QT Analysis",label="QT")
 					wdTitle("",label="blankTitle")
 	
@@ -317,9 +317,9 @@ QTcorrections <- function(data,info){
 				write.xport(sas, file="qtcdata.xpt")	
 
 				if(length(unique(data$gender))>1){
-					sasscript <- scan(file=paste(R.home(),"/library/QT/data/","QTc.sas",sep=""),sep="\n",what="character")	
+					sasscript <- scan(file=paste(R.home(),"/library/QT/extdata/","QTc.sas",sep=""),sep="\n",what="character")	
 				}else{
-					sasscript <- scan(file=paste(R.home(),"/library/QT/data/","QTcmale.sas",sep=""),sep="\n",what="character")						
+					sasscript <- scan(file=paste(R.home(),"/library/QT/extdata/","QTcmale.sas",sep=""),sep="\n",what="character")						
 				}
 				if(info$corr=="diag"){
 					for(i in which(regexpr("TYPE=UN",sasscript)!=-1)){
@@ -335,7 +335,7 @@ QTcorrections <- function(data,info){
 				}
 
 				if(length(CorrectionSponsor)>0){
-					sasscript <- scan(file=paste(R.home(),"/library/QT/data/","QTcSponsor.sas",sep=""),sep="\n",what="character")	
+					sasscript <- scan(file=paste(R.home(),"/library/QT/extdata/","QTcSponsor.sas",sep=""),sep="\n",what="character")	
 					for(i in 1:length(CorrectionSponsor)){
 						sasscript[20] <- paste("TITLE '",ifelse(CorrectionSponsor[i]=="sqtci","qtci",CorrectionSponsor[i])," ANALYSIS';",sep="")
 						sasscript[23] <- paste("MODEL ", ifelse(CorrectionSponsor[i]=="sqtci","SQTCI",CorrectionSponsor[i])," =GENDER NEWRR / SOLUTION CL COVB ALPHA=0.05 ALPHAP=0.05 DDFM=BW",sep="")
@@ -384,9 +384,9 @@ QTcorrections <- function(data,info){
 			write.xport(sas, file="qtcdata.xpt")	
 
 			if(length(unique(data$gender))>1){
-				sasscript <- scan(file=paste(R.home(),"/library/QT/data/","QTc.sas",sep=""),sep="\n",what="character")	
+				sasscript <- scan(file=paste(R.home(),"/library/QT/extdata/","QTc.sas",sep=""),sep="\n",what="character")	
 			}else{
-				sasscript <- scan(file=paste(R.home(),"/library/QT/data/","QTcmale.sas",sep=""),sep="\n",what="character")						
+				sasscript <- scan(file=paste(R.home(),"/library/QT/extdata/","QTcmale.sas",sep=""),sep="\n",what="character")						
 			}
 				
 			if(info$corr=="diag"){
@@ -404,7 +404,7 @@ QTcorrections <- function(data,info){
 			}			
 			
 			if(length(CorrectionSponsor)>0){
-					sasscript <- scan(file=paste(R.home(),"/library/QT/data/","QTcSponsor.sas",sep=""),sep="\n",what="character")	
+					sasscript <- scan(file=paste(R.home(),"/library/QT/extdata/","QTcSponsor.sas",sep=""),sep="\n",what="character")	
 					for(i in 1:length(CorrectionSponsor)){
 						sasscript[20] <- paste("TITLE '",ifelse(CorrectionSponsor[i]=="sqtci","qtci",CorrectionSponsor[i])," ANALYSIS';",sep="")
 						sasscript[23] <- paste("MODEL ", ifelse(CorrectionSponsor[i]=="sqtci","SQTCI",CorrectionSponsor[i])," =GENDER NEWRR / SOLUTION CL COVB ALPHA=0.05 ALPHAP=0.05 DDFM=BW",sep="")
@@ -1027,7 +1027,7 @@ QTcorrections <- function(data,info){
 		
 		plotAll <- xyplot(plotQT~rr|strip,data=dataplot,subset=strip%in%c("QT","QTcB","QTcF","QTcI"),aspect="fill",groups=id,panel=panel.superpose.2,type="l",ylab=list("QT interval (ms)",cex=1.5),xlab=list("RR interval (ms)",cex=1.5),strip=function(...) strip.default(..., strip.names=c(FALSE,TRUE), style=1),par.strip.text=list(cex=1.2),scales=list(cex=1.2))
 		if(!is.na(info$output)){
-			outputGraph("QTcorrectionAll.wmf",info$device,height=9,width=9)
+			outputGraph("QTcorrectionAll",info$device,height=9,width=9)
 			#win.metafile(height=9,width=9,file="QTcorrectionAll.wmf")
 			print(plotAll)
 			dev.off()
@@ -3066,7 +3066,7 @@ MeanData <- function(data,info){
 		wdGoToBookmark("blankMean")
 		wdNormal("")
 
-		wdBody(paste("The mean (90% CI) PK, QT,",QTcorrection," HR, and RR-time profiles are shown below together with the corresponding change from baseline profiles.",sep=""))
+		wdBody(paste("The mean (90% CI) PK, QT, ",QTcorrection,", HR, and RR-time profiles are shown below together with the corresponding change from baseline profiles.",sep=""))
 		wdBody("Figure 3: Mean (90% CI) time profiles for PK, QT/QTc, HR, and RR.")
 		if(!is.na(info$trt$Therapeutic)){
 			wdPlot(plotPKCI,width=9,height=6)
@@ -3083,7 +3083,7 @@ MeanData <- function(data,info){
 		wdPlot(plotHRcfbCI,width=9,height=6)
 		wdPlot(plotRRcfbCI,width=9,height=6)
 
-		wdBody(paste("Figure 4: Mean dd",QTcorrection," vs. mean ",as.character(info$pk$drugname)," concentrations connected in chronological order. The numbers in the hysteris plot represent the nominal sampling times.",sep=""))
+		wdBody(paste("Figure 4: Mean dd",QTcorrection," vs. mean ",as.character(info$pk$drugname)," concentrations connected in chronological order. The numbers in the hysteresis plot represent the nominal sampling times.",sep=""))
 		wdPlot(plothysCI,width=9,height=6)
 		wdSave("QT")
 	}
@@ -3133,7 +3133,7 @@ QTtime <- function(info){
 
 		CTnames <- names(info$trt)[!is.na(info$trt)]	
 
-		sasscript <- scan(file=paste(R.home(),"/library/QT/data/","QTtime.sas",sep=""),sep="\n",what="character")
+		sasscript <- scan(file=paste(R.home(),"/library/QT/extdata/","QTtime.sas",sep=""),sep="\n",what="character")
 		j <- length(sasscript)
 	
 		for(i in CTnames[-which(CTnames=="Placebo")]){
@@ -3591,10 +3591,10 @@ QTconc <- function(info){
 
 	assign("info",info,envir=.GlobalEnv)
 	
-	if(info$scale=="normal") sasscript <- scan(file=paste(R.home(),"/library/QT/data/","QTconc.sas",sep=""),sep="\n",what="character")	
-	if(info$scale=="log") sasscript <- scan(file=paste(R.home(),"/library/QT/data/","QTlogconc.sas",sep=""),sep="\n",what="character")	
-	if(info$scale=="normal" & info$delta=="single") sasscript <- scan(file=paste(R.home(),"/library/QT/data/","QTconcSingle.sas",sep=""),sep="\n",what="character")	
-	if(info$scale=="log" & info$delta=="single") sasscript <- scan(file=paste(R.home(),"/library/QT/data/","QTlogconcSingle.sas",sep=""),sep="\n",what="character")	
+	if(info$scale=="normal") sasscript <- scan(file=paste(R.home(),"/library/QT/extdata/","QTconc.sas",sep=""),sep="\n",what="character")	
+	if(info$scale=="log") sasscript <- scan(file=paste(R.home(),"/library/QT/extdata/","QTlogconc.sas",sep=""),sep="\n",what="character")	
+	if(info$scale=="normal" & info$delta=="single") sasscript <- scan(file=paste(R.home(),"/library/QT/extdata/","QTconcSingle.sas",sep=""),sep="\n",what="character")	
+	if(info$scale=="log" & info$delta=="single") sasscript <- scan(file=paste(R.home(),"/library/QT/extdata/","QTlogconcSingle.sas",sep=""),sep="\n",what="character")	
 	
 	if(info$scale!="normal" & info$scale!="log"){
 		print("Scale argument in info should be either \"normal\" or \"log\" (case-sensitive)")
