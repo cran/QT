@@ -241,6 +241,7 @@ QTcorrections <- function(data,info){
 
 	if(!is.na(info$output)){
 		opath <- getwd()
+		dir.create(info$output,showWarnings=FALSE)
 		setwd(info$output)
 	}
 
@@ -1220,6 +1221,7 @@ DataCheck <- function(data,info){
 
 	if(!is.na(info$output)){
 		opath <- getwd()
+		dir.create(info$output,showWarnings=FALSE)
 		setwd(info$output)
 	}
 
@@ -1422,6 +1424,7 @@ MeanData <- function(data,info){
 
 	if(!is.na(info$output)){
 		opath <- getwd()
+		dir.create(info$output,showWarnings=FALSE)
 		setwd(info$output)
 	}
 
@@ -3126,6 +3129,7 @@ QTtime <- function(info){
 
 	if(!is.na(info$output)){
 		opath <- getwd()
+		dir.create(info$output,showWarnings=FALSE)
 		setwd(info$output)
 	}
 
@@ -3572,6 +3576,7 @@ QTconc <- function(info){
 
 	if(!is.na(info$output)){
 		opath <- getwd()
+		dir.create(info$output,showWarnings=FALSE)
 		setwd(info$output)
 	}	
 
@@ -4040,7 +4045,7 @@ QTconc <- function(info){
 	dataplot$FLAG <- ordered(dataplot$FLAG,levels=unique(dataplot$FLAG[order(as.character(dataplot$TRT))]))
 	dataplot$PAT <- paste("ID ",dataplot$ID, sep="")
 	dataplot$PAT <- ordered(dataplot$PAT,levels=unique(dataplot$PAT[order(dataplot$ID)]))
-	dataplot <- dataplot[order(dataplot$TYPE,dataplot$ID,dataplot$CONC),]
+	dataplotID <- dataplot[order(dataplot$ID,dataplot$CONC),]
 	#dataplotID <- sort.col(dataplot,columns.to.sort="@ALL", columns.to.sort.by=c("ID","CONC"),ascending=FALSE)
 	assign("dataplot",dataplot,envir=.GlobalEnv)
 
@@ -4172,7 +4177,7 @@ QTconc <- function(info){
 				#xlim=c(-10,ceiling(max(dataplot$CONC))),
        			ylab=list(paste(QTcorrection,ifelse(info$delta=="single"," change from baseline (ms)"," change from placebo and baseline adjusted (ms)"),sep=""),cex=1.5),
 				xlab=list(paste(as.character(info$pk$drugname)," concentration (",as.character(info$pk$drugunit),")",sep=""),cex=1.5),
-				key=list(x=0.0,y=1.05,corner=c(0,1),border=FALSE,transparent=TRUE,columns=2,between=4,between.columns=2,text.width.multiplier=1,
+				key=list(x=0.0,y=1.05,corner=c(0,1),border=FALSE,transparent=TRUE,columns=1,between=4,between.columns=2,text.width.multiplier=1,
                			text = keytext,
 					lines=keyline),               
 				strip=function(...) strip.default(..., strip.names=c(FALSE,TRUE), style=1),
@@ -4366,7 +4371,7 @@ QTconc <- function(info){
 							#ylim=c(floor(min(data$ddqtc,na.rm=TRUE)),ceiling(max(data$ddqtc,na.rm=TRUE))),
 							key=list(x=0,y=1.1,corner=c(0,1),border=FALSE,transparent=TRUE,columns=1,between=3,between.columns=2,text.width.multiplier=1,
                         text = keytext,
-							line=keyline),
+							lines=keyline),
                        xlab=list(paste(as.character(info$pk$drugname)," concentration (",as.character(info$pk$drugunit),")",sep=""),cex=1.5),
        					ylab=list(paste(QTcorrection,ifelse(info$delta=="single"," change from baseline (ms)"," change from placebo and baseline adjusted (ms)"),sep=""),cex=1.5),
                        strip=function(...) strip.default(..., strip.names=c(FALSE,TRUE), style=1),
